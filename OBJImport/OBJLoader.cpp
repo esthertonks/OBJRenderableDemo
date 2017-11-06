@@ -15,8 +15,8 @@ OBJLoader::~OBJLoader()
 bool OBJLoader::FileIsSupported(std::string filename)
 {
 	std::string extension = StringUtils::GetFileExtension(filename);
-	std::string lowercaseFilename = StringUtils::ToLower(extension);
-	if (extension.compare(".obj") == 0) {
+	std::string lowercaseExtension = StringUtils::ToLower(extension);
+	if (extension.compare("obj") == 0) {
 		return true;
 	}
 
