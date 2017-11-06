@@ -1,7 +1,7 @@
 // OBJRenderableTests.cpp : Defines the entry point for the console application.
 //
 
-#include "OBJRenderableTests.h"
+#include "OBJImportTest.h"
 
 
 //using ::testing::Return;

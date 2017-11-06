@@ -17,4 +17,16 @@
 #include <memory.h>
 #include <tchar.h>
 
+#include <string>
+#include <vector>
+#include <memory>
+
+#define EXPORT_TEST_FUNCTIONS
+
+#ifdef EXPORT_TEST_FUNCTIONS
+#define OBJ_DEMO_EXPORT __declspec(dllexport) 
+#else
+#define OBJ_DEMO_EXPORT
+#endif
+
 // TODO: reference additional headers your program requires here

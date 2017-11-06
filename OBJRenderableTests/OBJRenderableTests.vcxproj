@@ -89,12 +89,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\OBJRenderableDemo;C:\googletest-master\googletest\include;C:\googletest-master\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\OBJImport;C:\googletest-master\googletest\include;C:\googletest-master\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GoogleTest.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GoogleTest.lib;OBJImport.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -149,10 +149,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OBJRenderableTests.h" />
+    <ClInclude Include="OBJImportTest.h" />
+    <ClInclude Include="StringUtilsTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OBJRenderableTests.cpp" />
+    <ClCompile Include="OBJImportTest.cpp" />
+    <ClCompile Include="StringUtilsTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleTest\GoogleTest.vcxproj">
