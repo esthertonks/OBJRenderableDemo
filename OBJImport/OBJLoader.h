@@ -5,11 +5,12 @@
 class OBJLoader
 {
 public:
-	OBJ_DEMO_EXPORT OBJLoader();
-	OBJ_DEMO_EXPORT ~OBJLoader();
+	OBJLoader();
+	 ~OBJLoader();
 
-	OBJ_DEMO_EXPORT bool LoadFile(std::string filename);
-	OBJ_DEMO_EXPORT bool ExtractObjFromFile();
+	bool FileIsSupported(std::string filename);
+	bool LoadFile(std::string filename);
+	bool ExtractObjFromFile();
 };
 
 

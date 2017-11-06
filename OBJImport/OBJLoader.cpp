@@ -12,7 +12,7 @@ OBJLoader::~OBJLoader()
 {
 }
 
-bool fileIsSupported(std::string filename)
+bool OBJLoader::FileIsSupported(std::string filename)
 {
 	std::string extension = StringUtils::GetFileExtension(filename);
 	std::string lowercaseFilename = StringUtils::ToLower(extension);
