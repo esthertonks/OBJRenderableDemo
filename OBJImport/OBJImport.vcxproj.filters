@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Maths">
+      <UniqueIdentifier>{59029181-9187-46a1-a50d-0898443c5625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mesh">
+      <UniqueIdentifier>{c3b8a681-2b1b-4a02-95f3-ad5b44816d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Maths">
+      <UniqueIdentifier>{cd168e9b-2606-4507-9d2f-e923638cc48e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mesh">
+      <UniqueIdentifier>{e3b80a0f-345f-4571-a858-7e243f4d65d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,20 +36,26 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OBJLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PrimitiveCommandList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitiveCommandList.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -47,17 +65,23 @@
     <ClCompile Include="StringUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Source Files\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
     <ClCompile Include="PrimitiveCommandList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
