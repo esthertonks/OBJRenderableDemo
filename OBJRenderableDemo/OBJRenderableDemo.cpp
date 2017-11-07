@@ -8,7 +8,7 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
 	OBJLoader objLoader;
-	std::string filename = "Resources/cube.obj";
+	auto filename = "../Assets/cube.obj";
 	objLoader.LoadFile(filename);
 
 	return 0;
