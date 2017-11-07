@@ -1,9 +1,10 @@
 #pragma once
 
 #include "stdafx.h"
+#include <sstream>
 
 class Mesh;
-
+class MeshBuilder;
 class Vector2;
 class Vector3;
 
@@ -17,18 +18,12 @@ public:
 	std::shared_ptr<Mesh> LoadFile(const std::string &filename);
 
 private:
-	bool ReadFile(const std::string &filename, std::ifstream &fileStream);
-	bool ReadOBJ(std::ifstream &fileStream, std::shared_ptr<Mesh> mesh);
+	bool ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder> meshBuilder);
 
-	bool ReadVertexPosition(std::stringstream &stringStream);
-	bool ReadVertexNormal(std::stringstream &stringStream);
-	bool ReadVertexTextureCoords(std::stringstream &stringStream);
-	bool ReadFaceIndices(std::stringstream &stringStream);
-
-	// Used to store vector attributes before the vertex index is known
-	std::unique_ptr<std::vector<Vector3>> positionList;
-	std::unique_ptr<std::vector<Vector3>> normalList;
-	std::unique_ptr<std::vector<Vector3>> texCoordList;
+	Vector3 ParsePosition(std::stringstream &stringstream);
+	Vector3 ParseNormal(std::stringstream &stringstream);
+	Vector2 ParseTexCoords(std::stringstream &stringstream);
+	std::vector<int> ParseVertexIndices(std::stringstream &stringStream);
 };
 
 

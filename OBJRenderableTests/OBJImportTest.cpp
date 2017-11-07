@@ -2,7 +2,7 @@
 //
 
 #include "OBJImportTest.h"
-
+#include "Mesh.h"
 
 //using ::testing::Return;
 
@@ -32,7 +32,16 @@ TEST_F(OBJImportTest, FileIsSupportedFails) {
 
 TEST_F(OBJImportTest, FileLoadSuceeds) {
 	auto filename = "Resources/cube.obj";
-	EXPECT_NE(objLoader.LoadFile(filename), nullptr);
+
+	std::shared_ptr<Mesh> mesh = objLoader.LoadFile(filename);
+	EXPECT_NE(mesh, nullptr);
+
+	VertexBuffer vertexBuffer = mesh->GetVertexBuffer();
+	IndexBuffer indexBuffer = mesh->GetIndexBuffer();
+	PrimitiveCommandList primitiveCommandList = mesh->GetPrimitiveCommandList();
+
 }
+
+
 
 

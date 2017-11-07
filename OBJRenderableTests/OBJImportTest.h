@@ -2,7 +2,6 @@
 
 #include "gtest/gtest.h"
 #include "OBJLoader.h"
-#pragma comment(lib, "../Debug/OBJRenderableDemo.lib")
 
 class OBJImportTest : public ::testing::Test {
 

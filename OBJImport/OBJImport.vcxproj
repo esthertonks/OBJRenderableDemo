@@ -131,8 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="OBJLoader.h" />
-    <ClInclude Include="PrimitiveCommandList.h" />
+    <ClInclude Include="PrimitiveCommand.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
@@ -142,8 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshBuilder.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
-    <ClCompile Include="PrimitiveCommandList.cpp" />
+    <ClCompile Include="PrimitiveCommand.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
