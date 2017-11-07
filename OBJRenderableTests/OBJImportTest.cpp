@@ -20,24 +20,19 @@ void OBJImportTest::SetUp() {};
 void OBJImportTest::TearDown() {};
 
 TEST_F(OBJImportTest, FileIsSupportedSuceeds) {
-	std::string filename = "Resources/cube.obj";
+	auto filename = "Resources/cube.obj";
 	EXPECT_EQ(objLoader.FileIsSupported(filename), true);
 }
 
 
 TEST_F(OBJImportTest, FileIsSupportedFails) {
-	std::string filename = "Resources/cube.obj";
+	auto filename = "Resources/cube.obj";
 	EXPECT_EQ(objLoader.FileIsSupported(filename), true);
 }
 
 TEST_F(OBJImportTest, FileLoadSuceeds) {
-	std::string filename = "Resources/cube.obj";
-	EXPECT_EQ(objLoader.LoadFile(filename), true);
-}
-
-TEST_F(OBJImportTest, ImportSuceeds) {
-	std::string filename = "Resources/cube.obj";
-	EXPECT_EQ(objLoader.ExtractObjFromFile(), true);
+	auto filename = "Resources/cube.obj";
+	EXPECT_NE(objLoader.LoadFile(filename), nullptr);
 }
 
 
