@@ -4,6 +4,7 @@ class Mesh;
 
 class Vector2;
 class Vector3;
+class Vertex;
 
 class MeshBuilder
 {
@@ -22,12 +23,17 @@ public:
 
 private:
 
+	void AddIndexToCache(int oldIndex, int newIndex);
+	int GetVertexIndex(int positionIndex, Vertex &vertex);
+
 	std::shared_ptr<Mesh> m_mesh;
 
 	// Used to store vector attributes before the vertex index is known
 	std::unique_ptr<std::vector<Vector3>> m_positionList;
 	std::unique_ptr<std::vector<Vector3>> m_normalList;
 	std::unique_ptr<std::vector<Vector2>> m_texCoordList;
+
+	std::multimap<int, int> m_vertexIndexCache;
 
 };
 

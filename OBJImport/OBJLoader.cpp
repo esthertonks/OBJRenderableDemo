@@ -8,12 +8,6 @@
 
 #include <fstream>
 
-#ifdef _DEBUG
-#define LOG(str)    OutputDebugStringW(str)
-#else
-#define LOG(str)    (void)(str)
-#endif
-
 OBJLoader::OBJLoader() : m_meshBuilder(nullptr)
 {
 }

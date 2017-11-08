@@ -36,14 +36,14 @@ bool MeshBuilder::AddVertexTextureCoords(const Vector2 &texCoords)
 // TODO can we undubplicate this?
 bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const std::array<int, 3>texCoordIndices, const std::array<int, 3> normalIndices)
 {
-	int offset = -1;
-
+	auto indexOffset = m_mesh->GetCurrentIndexBufferIndex();
 	// TODO do we need to reomve duplicate verts?
 	for (int triangleCorner = 0; triangleCorner < 3; triangleCorner++) {
 		Vertex vertex;
+		auto positionIndex = positionIndices[triangleCorner];
 
-		assert(m_positionList->size() > positionIndices[triangleCorner]);
-		vertex.position = m_positionList->at(positionIndices[triangleCorner]);
+		assert(m_positionList->size() > positionIndex);
+		vertex.position = m_positionList->at(positionIndex);
 		if (m_texCoordList->size() > 0) {
 			vertex.texCoord = m_texCoordList->at(texCoordIndices[triangleCorner]);
 		}
@@ -51,32 +51,37 @@ bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const s
 			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
 		}
 
-		// TODO remove duplicate verts!!!!!
-		int index = m_mesh->AddVertex(vertex);
-		m_mesh->AddIndex(index);
-
-		if (triangleCorner == 0) {
-			offset = index;
+		auto vertexIndex = GetVertexIndex(positionIndex, vertex);
+		if (vertexIndex != -1) { // We found an idenical vertex in the vertexbuffer just add the index
+			m_mesh->AddIndex(vertexIndex);
+		}
+		else { // Add the vertex and add an new index
+			m_mesh->AddVertex(vertex);
+			vertexIndex = m_mesh->GetCurrentVertexIndex();
+			m_mesh->AddIndex(vertexIndex);
+			// Add the current vertex to the cache with the original position as key.
+			AddIndexToCache(positionIndex, vertexIndex);
 		}
 	}
 
-	assert(offset != -1);
-
-	PrimitiveType type = PrimitiveType::TRIANGLE;
-	PrimitiveCommand primitiveCommand(offset, type);
+	auto type = PrimitiveType::TRIANGLE;
+	PrimitiveCommand primitiveCommand(indexOffset, type);
+	m_mesh->AddPrimitive(primitiveCommand);
 
 	return true;
 }
 
 bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::array<int, 4> texCoordIndices, const std::array<int, 4> normalIndices)
 {
-	int offset = -1;
+	auto indexOffset = m_mesh->GetCurrentIndexBufferIndex();
 
 	for (int triangleCorner = 0; triangleCorner < 4; triangleCorner++) {
 		Vertex vertex;
 
-		assert(m_positionList->size() > positionIndices[triangleCorner]);
-		vertex.position = m_positionList->at(positionIndices[triangleCorner]);
+		auto positionIndex = positionIndices[triangleCorner];
+
+		assert(m_positionList->size() > positionIndex);
+		vertex.position = m_positionList->at(positionIndex);
 
 		if (m_texCoordList->size() > 0) {
 			vertex.texCoord = m_texCoordList->at(texCoordIndices[triangleCorner]);
@@ -86,21 +91,41 @@ bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::ar
 			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
 		}
 
-		// TODO remove duplicate verts!!!!!
-		int index = m_mesh->AddVertex(vertex);
-		m_mesh->AddIndex(index);
-
-		if (triangleCorner == 0) {
-			offset = index;
+		auto vertexIndex = GetVertexIndex(positionIndex, vertex);
+		if (vertexIndex != -1) { // We found an idenical vertex in the vertexbuffer just add the index
+			m_mesh->AddIndex(vertexIndex);
+		}
+		else {
+			m_mesh->AddVertex(vertex);
+			vertexIndex = m_mesh->GetCurrentVertexIndex();
+			m_mesh->AddIndex(vertexIndex);
+			// Add the current vertex to the cache with the original position as key.
+			AddIndexToCache(positionIndex, vertexIndex);
 		}
 	}
 
-	assert(offset != -1);
-
-	PrimitiveType type = PrimitiveType::QUAD;
-	PrimitiveCommand primitiveCommand(offset, type);
+	auto type = PrimitiveType::QUAD;
+	PrimitiveCommand primitiveCommand(indexOffset, type);
+	m_mesh->AddPrimitive(primitiveCommand);
 
 	return true;
+}
+
+int MeshBuilder::GetVertexIndex(int positionIndex, Vertex &vertex) {
+	auto iter = m_vertexIndexCache.find(positionIndex);
+	while (iter != m_vertexIndexCache.end()) {
+		if (vertex == m_mesh->GetVertexBuffer()->at(iter->second)) {
+			return iter->second;
+		}
+		++iter;
+	}
+
+	return -1;
+}
+
+void MeshBuilder::AddIndexToCache(int oldIndex, int newIndex)
+{
+	m_vertexIndexCache.emplace(oldIndex, newIndex);
 }
 
 std::shared_ptr<Mesh> MeshBuilder::GetCompleteMesh()

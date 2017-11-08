@@ -23,5 +23,13 @@
 #include <tuple>
 #include <cassert>
 #include <array>
+#include <map>
+#include <unordered_map>
+
+#ifdef _DEBUG
+#define LOG(str)    OutputDebugStringW(str)
+#else
+#define LOG(str)    (void)(str)
+#endif
 
 // TODO: reference additional headers your program requires here

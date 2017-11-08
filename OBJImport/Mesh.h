@@ -25,10 +25,19 @@ public:
 		return m_primitiveCommandList;
 	}
 
-	int AddVertex(const Vertex &vertex)
+	void AddVertex(const Vertex &vertex)
 	{
 		m_vertexBuffer->emplace_back(vertex);
+		return;
+	}
+
+	// TODO is -1 necessary?
+	int GetCurrentVertexIndex() {
 		return m_vertexBuffer->size() - 1;
+	}
+
+	int GetCurrentIndexBufferIndex() {
+		return m_indexBuffer->size();
 	}
 
 	void AddIndex(const int index)
