@@ -22,5 +22,6 @@
 #include <memory>
 #include <tuple>
 #include <cassert>
+#include <array>
 
 // TODO: reference additional headers your program requires here

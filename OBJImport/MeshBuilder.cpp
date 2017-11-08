@@ -6,43 +6,52 @@
 
 MeshBuilder::MeshBuilder()
 {
-	positionList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
-	normalList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
-	texCoordList = std::unique_ptr<std::vector<Vector2>>(new std::vector<Vector2>());
+	m_mesh = std::shared_ptr<Mesh>(new Mesh);
+	m_positionList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
+	m_normalList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
+	m_texCoordList = std::unique_ptr<std::vector<Vector2>>(new std::vector<Vector2>());
 }
 
 bool MeshBuilder::AddVertexPosition(const Vector3 &position)
 {
-	positionList->emplace_back(position);
+	m_positionList->emplace_back(position);
 
 	return true;
 }
 
 bool MeshBuilder::AddVertexNormal(const Vector3 &normal)
 {
-	normalList->emplace_back(normal);
+	m_normalList->emplace_back(normal);
 
 	return true;
 }
 
 bool MeshBuilder::AddVertexTextureCoords(const Vector2 &texCoords)
 {
-	texCoordList->emplace_back(texCoords);
+	m_texCoordList->emplace_back(texCoords);
 
 	return true;
 }
 
-bool MeshBuilder::AddTriangle(const int positionIndices[3], const int normalIndices[3], const int texCoordIndices[3])
+// TODO can we undubplicate this?
+bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const std::array<int, 3>texCoordIndices, const std::array<int, 3> normalIndices)
 {
 	int offset = -1;
 
+	// TODO do we need to reomve duplicate verts?
 	for (int triangleCorner = 0; triangleCorner < 3; triangleCorner++) {
 		Vertex vertex;
 
-		vertex.position = positionList->at(positionIndices[triangleCorner]);
-		vertex.normal = normalList->at(normalIndices[triangleCorner]);
-		vertex.texCoord = texCoordList->at(texCoordIndices[triangleCorner]);
+		assert(m_positionList->size() > positionIndices[triangleCorner]);
+		vertex.position = m_positionList->at(positionIndices[triangleCorner]);
+		if (m_texCoordList->size() > 0) {
+			vertex.texCoord = m_texCoordList->at(texCoordIndices[triangleCorner]);
+		}
+		if (m_normalList->size() > 0) {
+			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
+		}
 
+		// TODO remove duplicate verts!!!!!
 		int index = m_mesh->AddVertex(vertex);
 		m_mesh->AddIndex(index);
 
@@ -59,17 +68,25 @@ bool MeshBuilder::AddTriangle(const int positionIndices[3], const int normalIndi
 	return true;
 }
 
-bool MeshBuilder::AddQuad(const int positionIndices[4], const int normalIndices[4], const int texCoordIndices[4])
+bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::array<int, 4> texCoordIndices, const std::array<int, 4> normalIndices)
 {
 	int offset = -1;
 
 	for (int triangleCorner = 0; triangleCorner < 4; triangleCorner++) {
 		Vertex vertex;
 
-		vertex.position = positionList->at(positionIndices[triangleCorner]);
-		vertex.normal = normalList->at(normalIndices[triangleCorner]);
-		vertex.texCoord = texCoordList->at(texCoordIndices[triangleCorner]);
+		assert(m_positionList->size() > positionIndices[triangleCorner]);
+		vertex.position = m_positionList->at(positionIndices[triangleCorner]);
 
+		if (m_texCoordList->size() > 0) {
+			vertex.texCoord = m_texCoordList->at(texCoordIndices[triangleCorner]);
+		}
+
+		if (m_normalList->size() > 0) {
+			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
+		}
+
+		// TODO remove duplicate verts!!!!!
 		int index = m_mesh->AddVertex(vertex);
 		m_mesh->AddIndex(index);
 
@@ -84,6 +101,22 @@ bool MeshBuilder::AddQuad(const int positionIndices[4], const int normalIndices[
 	PrimitiveCommand primitiveCommand(offset, type);
 
 	return true;
+}
+
+std::shared_ptr<Mesh> MeshBuilder::GetCompleteMesh()
+{
+	// Generate normals if we didnt load them.
+	if (m_normalList->empty()) {
+		GenerateNormals();
+	}
+
+	// TODO probably need to generate default material to render
+
+	return m_mesh;
+}
+
+void MeshBuilder::GenerateNormals() {
+	// TODO
 }
 
 

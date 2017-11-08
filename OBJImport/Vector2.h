@@ -16,12 +16,10 @@ public:
 
 	inline bool operator == (const Vector2& vector2) const {
 		return this->x == vector2.x &&
-			this->y == vector2.y &&
-			this->z == vector2.z;
+			this->y == vector2.y;
 	}
 
 	float x;
 	float y;
-	float z;
 };
 

@@ -18,12 +18,16 @@ public:
 	std::shared_ptr<Mesh> LoadFile(const std::string &filename);
 
 private:
-	bool ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder> meshBuilder);
+	bool ReadLine(std::ifstream &fileStream);
+	void AddTriangleData(std::vector<std::array<int, 3>> &faceIndices);
+	void AddQuadData(std::vector<std::array<int, 3>> &faceIndices);
 
 	Vector3 ParsePosition(std::stringstream &stringstream);
 	Vector3 ParseNormal(std::stringstream &stringstream);
 	Vector2 ParseTexCoords(std::stringstream &stringstream);
-	std::vector<int> ParseVertexIndices(std::stringstream &stringStream);
+	std::array<int, 3> ParseVertexIndices(std::stringstream &stringStream);
+
+	std::unique_ptr<MeshBuilder> m_meshBuilder;
 };
 
 

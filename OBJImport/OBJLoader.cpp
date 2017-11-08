@@ -14,7 +14,7 @@
 #define LOG(str)    (void)(str)
 #endif
 
-OBJLoader::OBJLoader()
+OBJLoader::OBJLoader() : m_meshBuilder(nullptr)
 {
 }
 
@@ -40,7 +40,7 @@ std::shared_ptr<Mesh> OBJLoader::LoadFile(const std::string &filename)
 		return false;
 	}
 
-	std::unique_ptr<MeshBuilder> meshBuilder = std::unique_ptr<MeshBuilder>(new MeshBuilder());
+	m_meshBuilder = std::unique_ptr<MeshBuilder>(new MeshBuilder());
 
 	std::ifstream fileStream;
 
@@ -54,13 +54,13 @@ std::shared_ptr<Mesh> OBJLoader::LoadFile(const std::string &filename)
 
 	while (fileStream && !fileStream.eof())
 	{
-		//ReadLine(fileStream, meshBuilder);
+		ReadLine(fileStream);
 	}
 
-	return meshBuilder->GetMesh();
+	return m_meshBuilder->GetCompleteMesh();
 }
 
-bool OBJLoader::ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder> meshBuilder)
+bool OBJLoader::ReadLine(std::ifstream &fileStream)
 {
 	std::string line;
 
@@ -85,28 +85,33 @@ bool OBJLoader::ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder>
 	if (key == "v")
 	{
 		auto position = ParsePosition(stringStream);
-		meshBuilder->AddVertexPosition(position);
+		m_meshBuilder->AddVertexPosition(position);
 	}
 	// Vertex normal
 	else if(key == "vn")
 	{
 		auto normal = ParseNormal(stringStream);
-		meshBuilder->AddVertexNormal(normal);
+		m_meshBuilder->AddVertexNormal(normal);
 	}
 	// Texture coords
 	else if(key == "vt")
 	{
 		auto texCoords = ParseTexCoords(stringStream);
-		meshBuilder->AddVertexTextureCoords(texCoords);
+		m_meshBuilder->AddVertexTextureCoords(texCoords);
 	}
 	// Face indices
-	else if(key == "f ")
+	else if(key == "f")
 	{
 		std::string faceLine;
 		std::getline(stringStream, faceLine);
+
+		// remove spaces from right hand side of data otherwise eof will not be called after data read.
+		StringUtils::TrimRight(faceLine);
+
 		std::stringstream faceStringStream;
 		faceStringStream << faceLine;
-		std::vector<std::vector<int>>faceIndices;
+
+		std::vector<std::array<int, 3>>faceIndices;
 
 		while (!faceStringStream.eof()) {
 
@@ -115,27 +120,28 @@ bool OBJLoader::ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder>
 		}
 
 		if (faceIndices.size() == 3) {
-			int positionIndices[3];
-			int normalIndices[3];
-			int texCoordIndices[3];
 
-			meshBuilder->AddTriangle(&positionIndices[0], &normalIndices[0], &texCoordIndices[0]);
+			AddTriangleData(faceIndices);
+		}
+		else if (faceIndices.size() == 4) {
+
+			AddQuadData(faceIndices);
 		}
 
 	}
 	// Material name
 	else if(key == "usemtl")
 	{
-		// Not implemented for this exercise.
+		// Load the material name. Not implemented for this exercise.
 		LOG(L"usemtl");
 	}
 	// Material library
 	else if(key == "mtllib")
 	{
-		// Not implemented for this exercise.
+		// Load the material library. Not implemented for this exercise.
 		LOG(L"mtllib");
 	}
-	// Smooting group
+	// Smoothing group
 	else if(key == "s")
 	{
 		// Not implemented for this exercise .
@@ -144,11 +150,43 @@ bool OBJLoader::ReadLine(std::ifstream &fileStream, std::unique_ptr<MeshBuilder>
 	else
 	{
 		// Other unimplemeted type.
-		LOG(L"other");
+		LOG(LPCWSTR(key.c_str()));
 	}
 
 
 	return true;
+}
+
+void OBJLoader::AddTriangleData(std::vector<std::array<int, 3>> &faceIndices) {
+	std::array<int, 3> positionIndices;
+	std::array<int, 3> normalIndices;
+	std::array<int, 3> texCoordIndices;
+
+	int index = 0;
+	for (auto &indices : faceIndices) {
+		positionIndices[index] = indices[0];
+		texCoordIndices[index] = indices[1];
+		normalIndices[index] = indices[2];
+		index++;
+	}
+
+	m_meshBuilder->AddTriangle(positionIndices, texCoordIndices, normalIndices);
+}
+
+void OBJLoader::AddQuadData(std::vector<std::array<int, 3>> &faceIndices) {
+	std::array<int, 4> positionIndices;
+	std::array<int, 4> normalIndices;
+	std::array<int, 4> texCoordIndices;
+
+	int index = 0;
+	for (auto &indices : faceIndices) {
+		positionIndices[index] = indices[0];
+		texCoordIndices[index] = indices[1];
+		normalIndices[index] = indices[2];
+		index++;
+	}
+
+	m_meshBuilder->AddQuad(positionIndices, texCoordIndices, normalIndices);
 }
 
 Vector3 OBJLoader::ParsePosition(std::stringstream &stringStream) {
@@ -180,46 +218,39 @@ Vector2 OBJLoader::ParseTexCoords(std::stringstream &stringStream) {
 	return texCoords;
 }
 
-std::vector<int> OBJLoader::ParseVertexIndices(std::stringstream &stringStream) {
-	std::vector<int> indices;
-	int positionIndex;
-	int normalIndex;
-	int texCoordIndex;
+std::array<int, 3> OBJLoader::ParseVertexIndices(std::stringstream &stringStream) {
+	std::array<int, 3> indices = { 0, 0, 0 };
+	auto positionIndex = 0;
+	auto normalIndex = 0;
+	auto texCoordIndex = 0;
 
-	std::string vertex;
-	std::string normal;
-	std::string texCoord;
+	// This expects that all three indices must be present.
+	// TODO checks to make sure they are.
 
-	if(getline(stringStream, vertex, '/')) {
-		if(vertex.size()) {
-			std::stringstream vertexStream;
-			vertexStream << vertex;
-			vertexStream >> positionIndex;
-			positionIndex -= 1; // Because the indices start at 1
-		}
-	}
+	stringStream >> positionIndex;
+	positionIndex -= 1; // Because the indices start at 1
+	indices[0] = positionIndex;
 
-	if(getline(stringStream, normal, '/')) {
-		if(normal.size()) {
-			std::stringstream normalStream;
-			normalStream << normal;
-			normalStream >> normalIndex;
-			normalIndex -= 1; // Because the indices start at 1
-		}
-	}
+	if ('/' == stringStream.peek()){
+		stringStream.ignore();
 
-	if(getline(stringStream, texCoord, '/')) {
-		if(texCoord.size()) {
-			std::stringstream texCoordStream;
-			texCoordStream << texCoord;
-			texCoordStream >> texCoordIndex;
+		if ('/' != stringStream.peek()) {
+			stringStream >> texCoordIndex;
 			texCoordIndex -= 1; // Because the indices start at 1
+			indices[1] = texCoordIndex;
+		}
+
+		if ('/' == stringStream.peek()) {
+			stringStream.ignore();
+
+			stringStream >> normalIndex;
+			normalIndex -= 1; // Because the indices start at 1
+			indices[2] = normalIndex;
 		}
 	}
 
-	indices.emplace_back(positionIndex);
-	indices.emplace_back(normalIndex);
-	indices.emplace_back(texCoordIndex);
+
+
 
 	return indices;
 }

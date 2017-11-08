@@ -26,5 +26,11 @@ public:
 
 		return "";
 	}
+
+	static void TrimRight(std::string &string) {
+		string.erase(std::find_if(string.rbegin(), string.rend(), [](int character) {
+			return !std::isspace(character);
+		}).base(), string.end());
+	}
 };
 

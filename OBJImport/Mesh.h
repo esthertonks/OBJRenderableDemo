@@ -3,10 +3,6 @@
 #include "Vertex.h"
 #include "PrimitiveCommand.h"
 
-typedef std::shared_ptr<std::vector<int>> IndexBuffer;
-typedef std::shared_ptr<std::vector<Vertex>> VertexBuffer;
-typedef std::shared_ptr<std::vector<PrimitiveCommand>> PrimitiveCommandList;
-
 class Mesh
 {
 public:
@@ -14,17 +10,17 @@ public:
 	Mesh();
 	~Mesh();
 
-	VertexBuffer GetVertexBuffer()
+	std::shared_ptr<std::vector<Vertex>> GetVertexBuffer()
 	{
 		return m_vertexBuffer;
 	}
 
-	IndexBuffer GetIndexBuffer() 
+	std::shared_ptr<std::vector<int>> GetIndexBuffer()
 	{
 		return m_indexBuffer;
 	}
 
-	PrimitiveCommandList GetPrimitiveCommandList() 
+	std::shared_ptr<std::vector<PrimitiveCommand>> GetPrimitiveCommandList()
 	{
 		return m_primitiveCommandList;
 	}
@@ -32,7 +28,7 @@ public:
 	int AddVertex(const Vertex &vertex)
 	{
 		m_vertexBuffer->emplace_back(vertex);
-		return m_vertexBuffer->size();
+		return m_vertexBuffer->size() - 1;
 	}
 
 	void AddIndex(const int index)
@@ -46,8 +42,8 @@ public:
 	}
 
 private:
-	VertexBuffer m_vertexBuffer;
-	IndexBuffer m_indexBuffer;
-	PrimitiveCommandList m_primitiveCommandList;
+	std::shared_ptr<std::vector<Vertex>> m_vertexBuffer;
+	std::shared_ptr<std::vector<int>> m_indexBuffer;
+	std::shared_ptr<std::vector<PrimitiveCommand>> m_primitiveCommandList;
 };
 
