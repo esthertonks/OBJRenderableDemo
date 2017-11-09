@@ -1,15 +1,16 @@
 #include "stdafx.h"
 #include "MeshBuilder.h"
-#include "Vertex.h"
 #include "Mesh.h"
 #include "PrimitiveCommand.h"
+#include "VertexCache.h"
 
-MeshBuilder::MeshBuilder()
+MeshBuilder::MeshBuilder() : m_mesh(std::shared_ptr<Mesh>(new Mesh)),
+					m_positionList(std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>())),
+					m_normalList(std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>())),
+					m_texCoordList(std::unique_ptr<std::vector<Vector2>>(new std::vector<Vector2>())),
+					m_vertexCache(std::unique_ptr<VertexCache>(new VertexCache()))
 {
-	m_mesh = std::shared_ptr<Mesh>(new Mesh);
-	m_positionList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
-	m_normalList = std::unique_ptr<std::vector<Vector3>>(new std::vector<Vector3>());
-	m_texCoordList = std::unique_ptr<std::vector<Vector2>>(new std::vector<Vector2>());
+
 }
 
 bool MeshBuilder::AddVertexPosition(const Vector3 &position)
@@ -51,7 +52,7 @@ bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const s
 			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
 		}
 
-		auto vertexIndex = GetVertexIndex(positionIndex, vertex);
+		auto vertexIndex = m_vertexCache->GetDuplicateVertexIndex(positionIndex, vertex, m_mesh->GetVertexBuffer());
 		if (vertexIndex != -1) { // We found an idenical vertex in the vertexbuffer just add the index
 			m_mesh->AddIndex(vertexIndex);
 		}
@@ -60,7 +61,7 @@ bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const s
 			vertexIndex = m_mesh->GetCurrentVertexIndex();
 			m_mesh->AddIndex(vertexIndex);
 			// Add the current vertex to the cache with the original position as key.
-			AddIndexToCache(positionIndex, vertexIndex);
+			m_vertexCache->AddIndexToCache(positionIndex, vertexIndex);
 		}
 	}
 
@@ -91,7 +92,7 @@ bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::ar
 			vertex.normal = m_normalList->at(normalIndices[triangleCorner]);
 		}
 
-		auto vertexIndex = GetVertexIndex(positionIndex, vertex);
+		auto vertexIndex = m_vertexCache->GetDuplicateVertexIndex(positionIndex, vertex, m_mesh->GetVertexBuffer());
 		if (vertexIndex != -1) { // We found an idenical vertex in the vertexbuffer just add the index
 			m_mesh->AddIndex(vertexIndex);
 		}
@@ -100,7 +101,7 @@ bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::ar
 			vertexIndex = m_mesh->GetCurrentVertexIndex();
 			m_mesh->AddIndex(vertexIndex);
 			// Add the current vertex to the cache with the original position as key.
-			AddIndexToCache(positionIndex, vertexIndex);
+			m_vertexCache->AddIndexToCache(positionIndex, vertexIndex);
 		}
 	}
 
@@ -109,23 +110,6 @@ bool MeshBuilder::AddQuad(const std::array<int, 4>positionIndices, const std::ar
 	m_mesh->AddPrimitive(primitiveCommand);
 
 	return true;
-}
-
-int MeshBuilder::GetVertexIndex(int positionIndex, Vertex &vertex) {
-	auto iter = m_vertexIndexCache.find(positionIndex);
-	while (iter != m_vertexIndexCache.end()) {
-		if (vertex == m_mesh->GetVertexBuffer()->at(iter->second)) {
-			return iter->second;
-		}
-		++iter;
-	}
-
-	return -1;
-}
-
-void MeshBuilder::AddIndexToCache(int oldIndex, int newIndex)
-{
-	m_vertexIndexCache.emplace(oldIndex, newIndex);
 }
 
 std::shared_ptr<Mesh> MeshBuilder::GetCompleteMesh()

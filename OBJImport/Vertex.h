@@ -22,6 +22,12 @@ public:
 			position == vertex.position;
 	}
 
+	inline bool operator == (Vertex& vertex) const {
+			return texCoord == vertex.texCoord &&
+				normal == vertex.normal &&
+				position == vertex.position;
+	}
+
 	Vector3 position;
 	Vector3 normal;
 	Vector2 texCoord;
