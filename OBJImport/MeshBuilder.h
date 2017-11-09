@@ -17,19 +17,22 @@ public:
 	bool AddVertexNormal(const Vector3 &normal);
 	bool AddVertexTextureCoords(const Vector2 &texCoords);
 	bool AddTriangle(const std::array<int, 3> positionIndices, const std::array<int, 3> texCoordIndices, const std::array<int, 3> normalIndices);
-	bool AddQuad(const std::array<int, 4>positionIndices, const std::array<int, 4> texCoordIndices, const std::array<int, 4> normalIndices);
+	bool AddQuad(const std::array<int, 4> positionIndices, const std::array<int, 4> texCoordIndices, const std::array<int, 4> normalIndices);
 
 	std::shared_ptr<Mesh> GetCompleteMesh();
-	void GenerateNormals();
+	Vector3 CalculateTriangleNormal(const std::array<int, 3>positionIndices);
+	Vector3 CalculateQuadNormal(const std::array<int, 4>positionIndices);
 
 private:
+
+	Vector3 CalculateNormal(const int positionIndex1, const int positionIndex2, const int positionIndex3);
 
 	std::shared_ptr<Mesh> m_mesh;
 
 	// Used to store vector attributes before the vertex index is known
-	std::unique_ptr<std::vector<Vector3>> m_positionList;
-	std::unique_ptr<std::vector<Vector3>> m_normalList;
-	std::unique_ptr<std::vector<Vector2>> m_texCoordList;
+	std::vector<Vector3> m_positionList;
+	std::vector<Vector3> m_normalList;
+	std::vector<Vector2> m_texCoordList;
 
 	std::unique_ptr<VertexCache> m_vertexCache;
 };

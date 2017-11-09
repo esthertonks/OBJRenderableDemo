@@ -1,14 +1,21 @@
 #pragma once
 
-enum PrimitiveType
+enum class PrimitiveType
 {
-	TRIANGLE = 3,
-	QUAD = 4
+	Triangle,
+	Quad
 };
 
 class PrimitiveCommand
 {
 public:
+
+	PrimitiveCommand()
+	{
+		m_offset = 3;
+		m_type = PrimitiveType::Triangle;
+	}
+
 	PrimitiveCommand(int offset, PrimitiveType type)
 	{
 		m_offset = offset;
@@ -17,14 +24,24 @@ public:
 
 	~PrimitiveCommand() {};
 
-	void SetOffset(int offset)
+	inline void SetOffset(int offset)
 	{
 		m_offset = offset;
 	}
 
-	void SetType(PrimitiveType type)
+	inline int GetOffset()
+	{
+		return m_offset;
+	}
+
+	inline void SetType(PrimitiveType type)
 	{
 		m_type = type;
+	}
+
+	inline PrimitiveType GetType()
+	{
+		return m_type;
 	}
 
 private:

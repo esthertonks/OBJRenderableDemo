@@ -11,26 +11,26 @@ public:
 	}
 
 	Vertex(Vector3 position, Vector3 normal, Vector2 texCoord) {
-		this->position = position;
-		this->normal = normal;
-		this->texCoord = texCoord;
+		this->m_position = position;
+		this->m_normal = normal;
+		this->m_texCoord = texCoord;
 	}
 
-	inline bool operator == (const Vertex& vertex) const {
-		return texCoord == vertex.texCoord &&
-			normal == vertex.normal &&
-			position == vertex.position;
+	inline bool operator == (const Vertex &vertex) const {
+		return m_texCoord == vertex.m_texCoord &&
+			m_normal == vertex.m_normal &&
+			m_position == vertex.m_position;
 	}
 
-	inline bool operator == (Vertex& vertex) const {
-			return texCoord == vertex.texCoord &&
-				normal == vertex.normal &&
-				position == vertex.position;
+	inline bool operator == (Vertex &vertex) const {
+			return m_texCoord == vertex.m_texCoord &&
+				m_normal == vertex.m_normal &&
+				m_position == vertex.m_position;
 	}
 
-	Vector3 position;
-	Vector3 normal;
-	Vector2 texCoord;
+	Vector3 m_position;
+	Vector3 m_normal;
+	Vector2 m_texCoord;
 
 };
 

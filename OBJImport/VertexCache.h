@@ -9,7 +9,7 @@ public:
 	~VertexCache();
 
 	void AddIndexToCache(const int oldIndex, const int newIndex);
-	int GetDuplicateVertexIndex(const int positionIndex, const Vertex &vertex, const std::shared_ptr<std::vector<Vertex>> vertexBuffer);
+	int GetDuplicateVertexIndex(const int positionIndex, const Vertex &vertex, const std::vector<Vertex> &vertexBuffer);
 
 private:
 

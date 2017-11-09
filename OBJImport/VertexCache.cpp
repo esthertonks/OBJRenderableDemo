@@ -12,10 +12,14 @@ VertexCache::~VertexCache()
 {
 }
 
-int VertexCache::GetDuplicateVertexIndex(const int positionIndex, const Vertex &vertex, const std::shared_ptr<std::vector<Vertex>> vertexBuffer) {
+int VertexCache::GetDuplicateVertexIndex(const int positionIndex, const Vertex &vertex, const std::vector<Vertex> &vertexBuffer) {
+	if (m_vertexIndexCache.size() == 0) {
+		return -1;
+	}
+
 	auto iter = m_vertexIndexCache.find(positionIndex);
 	while (iter != m_vertexIndexCache.end()) {
-		if (vertex == vertexBuffer->at(iter->second)) {
+		if (vertex == vertexBuffer.at(iter->second)) {
 			return iter->second;
 		}
 		++iter;

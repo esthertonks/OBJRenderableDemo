@@ -2,24 +2,24 @@
 class Vector2
 {
 public:
-	Vector2() {
-		x = 0.0f;
-		y = 0.0f;
+	Vector2()
+	{
+		Vector2(0.0f, 0.0f);
 	}
 
-	Vector2(float x, float y) {
-		this->x = x;
-		this->y = y;
+	Vector2(float x, float y)
+		: m_x(x), m_y(y)
+	{
 	}
 
 	~Vector2() {};
 
-	inline bool operator == (const Vector2& vector2) const {
-		return this->x == vector2.x &&
-			this->y == vector2.y;
+	inline bool operator == (const Vector2 &vector2) const {
+		return this->m_x == vector2.m_x &&
+			this->m_y == vector2.m_y;
 	}
 
-	float x;
-	float y;
+	float m_x;
+	float m_y;
 };
 

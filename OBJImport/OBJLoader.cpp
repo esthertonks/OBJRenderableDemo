@@ -186,9 +186,9 @@ void OBJLoader::AddQuadData(std::vector<std::array<int, 3>> &faceIndices) {
 Vector3 OBJLoader::ParsePosition(std::stringstream &stringStream) {
 	Vector3 position;
 
-	stringStream >> position.x;
-	stringStream >> position.y;
-	stringStream >> position.z;
+	stringStream >> position.m_x;
+	stringStream >> position.m_y;
+	stringStream >> position.m_z;
 
 	return position;
 }
@@ -196,9 +196,9 @@ Vector3 OBJLoader::ParsePosition(std::stringstream &stringStream) {
 Vector3 OBJLoader::ParseNormal(std::stringstream &stringStream) {
 	Vector3 normal;
 
-	stringStream >> normal.x;
-	stringStream >> normal.y;
-	stringStream >> normal.z;
+	stringStream >> normal.m_x;
+	stringStream >> normal.m_y;
+	stringStream >> normal.m_z;
 
 	return normal;
 }
@@ -206,8 +206,8 @@ Vector3 OBJLoader::ParseNormal(std::stringstream &stringStream) {
 Vector2 OBJLoader::ParseTexCoords(std::stringstream &stringStream) {
 	Vector2 texCoords;
 
-	stringStream >> texCoords.x;
-	stringStream >> texCoords.y;
+	stringStream >> texCoords.m_x;
+	stringStream >> texCoords.m_y;
 
 	return texCoords;
 }
@@ -217,9 +217,6 @@ std::array<int, 3> OBJLoader::ParseVertexIndices(std::stringstream &stringStream
 	auto positionIndex = 0;
 	auto normalIndex = 0;
 	auto texCoordIndex = 0;
-
-	// This expects that all three indices must be present.
-	// TODO checks to make sure they are.
 
 	stringStream >> positionIndex;
 	positionIndex -= 1; // Because the indices start at 1

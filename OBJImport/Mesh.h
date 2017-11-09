@@ -10,49 +10,49 @@ public:
 	Mesh();
 	~Mesh();
 
-	std::shared_ptr<std::vector<Vertex>> GetVertexBuffer()
+	const std::vector<Vertex> &GetVertexBuffer()
 	{
 		return m_vertexBuffer;
 	}
 
-	std::shared_ptr<std::vector<int>> GetIndexBuffer()
+	const std::vector<int> &GetIndexBuffer()
 	{
 		return m_indexBuffer;
 	}
 
-	std::shared_ptr<std::vector<PrimitiveCommand>> GetPrimitiveCommandList()
+	std::vector<PrimitiveCommand> &GetPrimitiveCommandList()
 	{
 		return m_primitiveCommandList;
 	}
 
 	void AddVertex(const Vertex &vertex)
 	{
-		m_vertexBuffer->emplace_back(vertex);
+		m_vertexBuffer.emplace_back(vertex);
 		return;
 	}
 
-	// TODO is -1 necessary?
+	// TODO better to make consistent with index buffer and loose the -1
 	int GetCurrentVertexIndex() {
-		return m_vertexBuffer->size() - 1;
+		return m_vertexBuffer.size() - 1;
 	}
 
 	int GetCurrentIndexBufferIndex() {
-		return m_indexBuffer->size();
+		return m_indexBuffer.size();
 	}
 
 	void AddIndex(const int index)
 	{
-		m_indexBuffer->push_back(index);
+		m_indexBuffer.push_back(index);
 	}
 
 	void AddPrimitive(const PrimitiveCommand &primitiveCommand)
 	{
-		m_primitiveCommandList->emplace_back(primitiveCommand);
+		m_primitiveCommandList.emplace_back(primitiveCommand);
 	}
 
 private:
-	std::shared_ptr<std::vector<Vertex>> m_vertexBuffer;
-	std::shared_ptr<std::vector<int>> m_indexBuffer;
-	std::shared_ptr<std::vector<PrimitiveCommand>> m_primitiveCommandList;
+	std::vector<Vertex> m_vertexBuffer;
+	std::vector<int> m_indexBuffer;
+	std::vector<PrimitiveCommand> m_primitiveCommandList;
 };
 
