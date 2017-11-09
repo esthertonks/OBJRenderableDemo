@@ -89,13 +89,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\OBJImport;C:\googletest-master\googletest\include;C:\googletest-master\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\googletest-master\googlemock;C:\googletest-master\googlemock\include;C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\OBJImport;C:\googletest-master\googletest\include;C:\googletest-master\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GoogleTest.lib;OBJImport.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GoogleTest.lib;OBJImport.lib;gmock.lib;gmock_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\googletest-master\googlemock\msvc\2015\Win32-Debug;C:\Users\mac_user\Documents\Repos\OBJRenderableDemo\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,12 +149,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MeshBuilderTest.h" />
     <ClInclude Include="OBJImportTest.h" />
     <ClInclude Include="StringUtilsTest.h" />
+    <ClInclude Include="Vector3Test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MeshBuilderTest.cpp" />
     <ClCompile Include="OBJImportTest.cpp" />
     <ClCompile Include="StringUtilsTest.cpp" />
+    <ClCompile Include="Vector3Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoogleTest\GoogleTest.vcxproj">

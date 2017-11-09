@@ -24,12 +24,24 @@
     <ClInclude Include="OBJImportTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MeshBuilderTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StringUtilsTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OBJImportTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuilderTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

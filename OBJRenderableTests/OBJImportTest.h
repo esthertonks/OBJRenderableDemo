@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include "OBJLoader.h"
 
 class OBJImportTest : public ::testing::Test {
@@ -8,12 +9,10 @@ class OBJImportTest : public ::testing::Test {
 protected:
 
 	OBJImportTest();
-
 	virtual ~OBJImportTest();
 
 	virtual void SetUp();
-
 	virtual void TearDown();
 
-	OBJLoader objLoader;
+	OBJLoader m_objLoader;
 };
