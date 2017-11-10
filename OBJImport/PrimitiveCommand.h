@@ -44,8 +44,13 @@ public:
 		return m_type;
 	}
 
+	inline int GetLength() {
+		return m_type == PrimitiveType::Triangle ? 3 : 4;
+	}
+
 private:
 	int m_offset;
 	PrimitiveType m_type;
+	int length;
 };
 

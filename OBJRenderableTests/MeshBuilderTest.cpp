@@ -85,6 +85,7 @@ TEST_F(MeshBuilderTest, MeshBuildSuceedsAndPrimitvesAreQuads) {
 	auto primitiveCommand = primitiveCommandList.at(0);
 	EXPECT_EQ(primitiveCommand.GetOffset(), 0);
 	EXPECT_EQ(primitiveCommand.GetType(), PrimitiveType::Quad);
+	EXPECT_EQ(primitiveCommand.GetLength(), 4);
 }
 
 TEST_F(MeshBuilderTest, MeshBuildWithNormalGenerationSucceeds) {
