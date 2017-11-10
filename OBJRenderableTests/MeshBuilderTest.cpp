@@ -71,6 +71,8 @@ void MeshBuilderTest::TearDown() {};
 
 TEST_F(MeshBuilderTest, FileLoadSuceedsAndPrimitvesAreQuads) {
 
+	EXPECT_NE(m_meshBuilder.GetCompleteMesh(), nullptr);
+
 	auto primitiveCommandList = m_meshBuilder.GetCompleteMesh()->GetPrimitiveCommandList();
 
 	auto primitiveCommand = primitiveCommandList.at(0);
@@ -81,6 +83,8 @@ TEST_F(MeshBuilderTest, FileLoadSuceedsAndPrimitvesAreQuads) {
 TEST_F(MeshBuilderTest, MeshBuildWithNormalGenerationSucceeds) {
 
 	Vector3 vertexNormal1(-0.522500336f, -0.727819324f, 0.444153666f);
+
+	EXPECT_NE(m_meshBuilder.GetCompleteMesh(), nullptr);
 
 	auto vertexBuffer = m_meshBuilder.GetCompleteMesh()->GetVertexBuffer();
 	auto indexBuffer = m_meshBuilder.GetCompleteMesh()->GetIndexBuffer();

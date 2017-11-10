@@ -57,6 +57,7 @@ bool MeshBuilder::AddTriangle(const std::array<int, 3 > positionIndices, const s
 			vertex.m_normal = normal;
 		}
 
+		// Use a vertex cahce because searching the index buffer would be really slow.
 		auto vertexIndex = m_vertexCache->GetDuplicateVertexIndex(positionIndex, vertex, m_mesh->GetVertexBuffer());
 		if (vertexIndex != -1) { // We found an identical vertex in the vertexbuffer just add the index
 			m_mesh->AddIndex(vertexIndex);
@@ -150,6 +151,20 @@ Vector3 MeshBuilder::CalculateNormal(const int positionIndex1, const int positio
 std::shared_ptr<Mesh> MeshBuilder::GetCompleteMesh()
 {
 	// TODO probably need to generate default material to render
+
+	// TODO a method to check mesh consistancy would be useful
+
+	if (m_mesh->GetCurrentIndexBufferIndex() == 0) {
+		return nullptr;
+	}
+
+	if (m_mesh->GetCurrentVertexIndex() == -1) {
+		return nullptr;
+	}
+
+	if (m_mesh->GetPrimitiveCommandList().size() == 0) {
+		return nullptr;
+	}
 
 	return m_mesh;
 }

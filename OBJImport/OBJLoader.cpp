@@ -127,24 +127,20 @@ bool OBJLoader::ReadLine(std::ifstream &fileStream)
 	else if(key == "usemtl")
 	{
 		// Load the material name. Not implemented for this exercise.
-		LOG(L"usemtl");
 	}
 	// Material library
 	else if(key == "mtllib")
 	{
 		// Load the material library. Not implemented for this exercise.
-		LOG(L"mtllib");
 	}
 	// Smoothing group
 	else if(key == "s")
 	{
 		// Not implemented for this exercise .
-		LOG(L"s");
 	}
 	else
 	{
 		// Other unimplemeted type.
-		LOG(LPCWSTR(key.c_str()));
 	}
 
 
