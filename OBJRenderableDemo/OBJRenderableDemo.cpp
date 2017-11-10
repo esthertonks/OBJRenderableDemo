@@ -7,6 +7,8 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
+	// TODO The intention is to add rendering here, but there hasnt been time :-)
+
 	OBJLoader objLoader;
 	//auto filename = "../Assets/cube.obj";
 	auto filename = "../Assets/ducky.obj";

@@ -69,7 +69,14 @@ void MeshBuilderTest::SetUp() {
 
 void MeshBuilderTest::TearDown() {};
 
-TEST_F(MeshBuilderTest, FileLoadSuceedsAndPrimitvesAreQuads) {
+TEST_F(MeshBuilderTest, CalculateTriangleNormalSucceds) {
+
+	Vector3 normal = m_meshBuilder.CalculateQuadNormal(m_testQuadIndexArray[0]);
+	EXPECT_EQ(normal, Vector3(-0.522500336f, -0.727819324f, 0.444153666f));
+}
+
+
+TEST_F(MeshBuilderTest, MeshBuildSuceedsAndPrimitvesAreQuads) {
 
 	EXPECT_NE(m_meshBuilder.GetCompleteMesh(), nullptr);
 
