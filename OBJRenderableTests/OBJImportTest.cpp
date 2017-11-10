@@ -63,7 +63,7 @@ TEST_F(OBJImportTest, DegenerateMeshFails) {
 	auto filename = "../Assets/degenerateCube.obj";
 
 	auto mesh = m_objLoader.LoadFile(filename);
-	EXPECT_NE(mesh, nullptr);
+	EXPECT_EQ(mesh, nullptr);
 }
 
 TEST_F(OBJImportTest, FileLoadSuceedsAndMeshIsConsistent) {

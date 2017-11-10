@@ -14,9 +14,7 @@ public:
 	~Vector3() {};
 
 	inline bool operator == (const Vector3 &vector3) const {
-		return this->m_x == vector3.m_x &&
-			this->m_y == vector3.m_y &&
-			this->m_z == vector3.m_z;
+		return ((abs(vector3.m_x - this->m_x) < 0.0001) && (abs(vector3.m_y - this->m_y) < 0.0001) && (abs(vector3.m_z - this->m_z) < 0.0001));
 	}
 
 	inline float DotProduct(Vector3 &vector) {
@@ -52,6 +50,7 @@ public:
 
 	bool Normalise() {
 		float length = Length();
+
 		if (length != 0) {
 			length = 1.0f / length;
 			m_x *= length;
