@@ -4,8 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OBJRenderableTests", "OBJRenderableTests\OBJRenderableTests.vcxproj", "{62E7B1A5-9304-4A81-A697-37DAD93BE588}"
+	ProjectSection(ProjectDependencies) = postProject
+		{35832A4F-D5F1-4AB3-8C6D-228E7915E295} = {35832A4F-D5F1-4AB3-8C6D-228E7915E295}
+		{DD9D4D6F-56EB-49F4-9B64-6D28D32D6B20} = {DD9D4D6F-56EB-49F4-9B64-6D28D32D6B20}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OBJRenderableDemo", "OBJRenderableDemo\OBJRenderableDemo.vcxproj", "{7AA8F07B-8209-45A7-B34A-7B2582B54FF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD9D4D6F-56EB-49F4-9B64-6D28D32D6B20} = {DD9D4D6F-56EB-49F4-9B64-6D28D32D6B20}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTest", "GoogleTest\GoogleTest.vcxproj", "{35832A4F-D5F1-4AB3-8C6D-228E7915E295}"
 EndProject

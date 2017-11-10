@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include "gmock/gmock.h"
 #include "MeshBuilder.h"
 
 class MeshBuilderTest : public ::testing::Test {

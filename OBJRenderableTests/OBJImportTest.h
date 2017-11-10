@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include "gmock/gmock.h"
 #include "OBJLoader.h"
 
 class OBJImportTest : public ::testing::Test {

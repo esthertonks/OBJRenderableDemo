@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include "gmock/gmock.h"
 #include "Vector3.h"
 
 class Vector3Test : public ::testing::Test {
